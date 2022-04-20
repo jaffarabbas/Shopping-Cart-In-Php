@@ -6,7 +6,10 @@ session_start();
 function alertMaker($flag)
 {
     if ($flag) {
-        echo "<script>alert('Added to cart');</script>";
+        echo "<script>
+                alert('Added to cart');
+                window.location.href='index.php';
+             </script>";
     } else {
         echo "
         <script>
@@ -33,6 +36,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //add first item to session array
             $_SESSION['cart'][0] = array('Item_Name' => $_POST['Item_Name'], 'Price' => $_POST['Price'], 'Quantity' => 1);
             alertMaker(true);
+        }
+    }
+    if(isset($_POST['Remove_Item'])){
+        foreach($_SESSION['cart'] as $key => $value){
+            if($value['Item_Name'] == $_POST['Item_Name']){
+                unset($_SESSION['cart'][$key]);
+                $_SESSION['cart'] = array_values($_SESSION['cart']);
+                echo "<script>
+                        alert('Item removed from cart');
+                        window.location.href='mycart.php';
+                     </script>";
+            }
+        }
+    }
+    if(isset($_POST['Mode_Quantity'])){
+        foreach($_SESSION['cart'] as $key => $value){
+            if($value['Item_Name'] == $_POST['Item_Name']){
+                $_SESSION['cart'][$key]['Quantity'] = $_POST['Mode_Quantity'];
+                echo "<script>
+                        window.location.href='mycart.php';
+                     </script>";
+            }
         }
     }
 }
