@@ -20,6 +20,7 @@ function alertMaker($flag)
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //add yo cart
     if (isset($_POST['Add_To_Cart'])) {
         if (isset($_SESSION['cart'])) {
             //item in array
@@ -38,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             alertMaker(true);
         }
     }
+    //remove from cart
     if(isset($_POST['Remove_Item'])){
         foreach($_SESSION['cart'] as $key => $value){
             if($value['Item_Name'] == $_POST['Item_Name']){
@@ -50,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
     }
+    //set quantity in session
     if(isset($_POST['Mode_Quantity'])){
         foreach($_SESSION['cart'] as $key => $value){
             if($value['Item_Name'] == $_POST['Item_Name']){
